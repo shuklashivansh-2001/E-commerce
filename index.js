@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Basic route
 app.get('/health', (req, res) => {
-    res.send(`Primary Backend is running on ${PORT}and fully functional`);
+    res.send(`Primary Backend is healthy running on ${PORT}and fully functional`);
 });
 
 // Start the server
