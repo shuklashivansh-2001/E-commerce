@@ -10,7 +10,7 @@ app.use(express.json());
 app.get('/health', (req, res) => {
     res.send('Primary Backend is running and fully functional');
 });
-hello;hii
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
