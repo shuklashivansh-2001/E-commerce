@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-require('dotenv').config;
+require('dotenv').config();
 
 const mongoDBURL = process.env.DB_URL;
-
-mongoose.connect(mongoDBURL, {
+console.log(mongoDBURL);
+mongoose.connect(mongoDBURL,{
     useNewUrlParser: true,
     useUnifiedTopology: true    
 })
@@ -39,10 +39,12 @@ const userSchema = new mongoose.Schema({
     },
     isActive:{
         type: Boolean,
+        required:true,
         default: true,
     },
     createdAt:{
         type: Date,
+        required:true,
         default: Date.now,
     },
     address:[{
@@ -51,7 +53,6 @@ const userSchema = new mongoose.Schema({
     }],
     contacts:[{
         type: String,
-        required:true,
         match: [/^\+?[1-9]\d{1,14}$/, 'Please fill a valid phone number'], 
     }]
 });
@@ -117,7 +118,13 @@ const productSchema = new mongoose.Schema({
         min : [0],
         default: 0
     },
-    warranty,guarantee:{
+    warranty:{
+        type: Number,
+        required: true,
+        min: [0],
+        default: 0
+    },
+    guarantee:{
         type: Number,
         required: true,
         min: [0],
