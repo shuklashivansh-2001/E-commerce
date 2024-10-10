@@ -2,12 +2,11 @@ const express = require('express');
 const {User} = require('../db/index.js');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const dotenv = require('dotenv');
 const authenticateToken = require('../middleware/authentication.js');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
+const dotenv = require('dotenv');
 dotenv.config();
-
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/signUp",async (req,res)=>{
     const {username,password,firstName,lastName,DOB} = req.body;
