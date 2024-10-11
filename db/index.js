@@ -112,7 +112,7 @@ const productSchema = new mongoose.Schema({
     updatedAt: {
         type: Date
     },
-    return:{// return in days
+    returnTime:{// return in days
         type: Number,
         required: true,
         min : [0],
