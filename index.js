@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/profile", profileRouter);
-//app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/product", adminRouter);
 
 // Basic route
 app.get('/health', (req, res) => {
