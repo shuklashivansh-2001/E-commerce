@@ -29,7 +29,6 @@ router.post('/',authenticateToken,async(req,res)=>{
             {new:true}
         );
 
-        console.log(updatedUser);
         return res.status(200).json({
             updatedUser
         });
@@ -58,7 +57,7 @@ router.post('/insertAddress',authenticateToken,async (req,res)=>{
         return res.status(200).json({
             message:'Address added successfully'
         });
-        
+
     }catch(e){
         console.error(e);
 
