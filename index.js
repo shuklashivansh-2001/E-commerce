@@ -1,6 +1,8 @@
 const express = require('express');
 const userRouter = require('./router/user');
 const profileRouter = require('./router/profile');
+const productRoute = require('./router/product');
+const reviewRoute = require('./router/review');
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 
@@ -10,7 +12,8 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/profile", profileRouter);
-app.use("/api/v1/product", adminRouter);
+app.use("/api/v1/product", productRoute);
+app.use("/api/v1/review", reviewRoute);
 
 // Basic route
 app.get('/health', (req, res) => {

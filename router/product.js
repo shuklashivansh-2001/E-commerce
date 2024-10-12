@@ -3,10 +3,13 @@ const { Product } = require('../db');
 const authenticateToken = require('../middleware/authentication');
 const route = express.Router();
 
-route.get('/', async(req,res)=>{
+route.get('/products', async(req,res)=>{
     try{
         const skipValue  = req.body.skipValue || 10;
-        const productList = await Product.find().skip(skipValue).limit(20);
+        const pageCount = req.body.pageCount || 0;
+        console.log(skipValue)
+        console.log(pageCount);
+        const productList = await Product.find().skip(skipValue*pageCount).limit(20);
 
         return res.status(200).json({
             productList
@@ -20,8 +23,8 @@ route.get('/', async(req,res)=>{
 
 route.get('/:productId', async(req,res)=>{
     try{
-        const productId = req.param.productId;
-        const productDetails =  await Product.findById(productId);
+        const productId = req.params.productId;
+        const productDetails =  await Product.findById({_id:productId});
 
         return res.status(200).json({
             productDetails
@@ -40,7 +43,7 @@ route.post('/create', authenticateToken, async(req,res)=>{
     try{
         const {productName,description,price,stock,returnTime,warranty,guarantee} = req.body;
         
-        if(!productName || !description || !price || !stock || !returnTime || !warranty || !guarantee){
+        if(!productName || !description || !price || !stock){
             return res.status(400).json({
                 message:"please fill all the necesaary details"
             });
@@ -55,6 +58,11 @@ route.post('/create', authenticateToken, async(req,res)=>{
             guarantee
         });
 
+        return res.status(200).json({
+            newProduct,
+            message:'Succefully added the product in DB'
+        });
+
     }catch(e){
         console.error(e);
         return res.status(400).json({
@@ -66,8 +74,9 @@ route.post('/create', authenticateToken, async(req,res)=>{
 route.post('/update/:productId',authenticateToken, async(req,res)=>{
     try{
         const productDetails = req.body;
+        const productId = req.params.productId;
         
-        const updatedProduct = Product.findOneAndUpdate(
+        const updatedProduct = await Product.findOneAndUpdate(
             {_id:productId},
             {$set:productDetails},
             {new:true}
@@ -85,3 +94,6 @@ route.post('/update/:productId',authenticateToken, async(req,res)=>{
         });   
     }
 });
+
+const productRoute = route;
+module.exports = productRoute;

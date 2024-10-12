@@ -97,7 +97,7 @@ const productSchema = new mongoose.Schema({
     price:{
         type: Number,
         required: true,
-        min: [0, 'Price cannot be negative']
+        min:[0, 'Price cannot be negative']
     },
     stock:{
         type:Number,
@@ -148,6 +148,14 @@ const productRatingAndReviewSchema = new mongoose.Schema({
         type: String,
         maxlength: 500
     },
+    createdAt:{
+        type:Date,
+        default:Date.now(),
+        required: true,
+    },
+    updatedAt:{
+        type:Date,
+    },
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
@@ -157,11 +165,11 @@ const productRatingAndReviewSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const Address = mongoose.model('address', addressSchema);
 const Product = mongoose.model('Product', productSchema);
-const Rating = mongoose.model('Rating', productRatingAndReviewSchema);
+const Review = mongoose.model('Rating', productRatingAndReviewSchema);
 
 module.exports = {
     User,
     Address,
     Product,
-    Rating
+    Review
 }
