@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    dob:{
+    DOB:{
         type: Date,
         required: true,
     },
@@ -95,9 +95,8 @@ const productSchema = new mongoose.Schema({
         maxlength: 500
     },
     price:{
-        type: Number,
-        required: true,
-        min:[0, 'Price cannot be negative']
+        type: String,
+        required: true
     },
     stock:{
         type:Number,

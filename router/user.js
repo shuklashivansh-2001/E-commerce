@@ -15,14 +15,14 @@ router.post("/signUp",async (req,res)=>{
         return res.status(400).send(`Please fill required fields`);
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log(hashedPassword);
     try{
         User.create({
             email: username,
             password:hashedPassword,
             firstName,
             lastName,
-            dob:DOB
+            DOB:DOB
         });
 
         return res.status(200).json({

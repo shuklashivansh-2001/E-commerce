@@ -10,10 +10,9 @@ route.get('/:productId',async(req,res)=>{
         const pageCount = req.body.pageCount || 0;
         const productId = req.params.productId;
         const reviewIdList = await Product.findOne({_id:productId}).select('ratingAndReview').skip(skipValue*pageCount).limit(10);
-        console.log(reviewIdList.ratingAndReview);
         const reviewList = await Review.find({
             _id:{ $in:reviewIdList.ratingAndReview}
-        });
+        }).populate('user', 'firstName lastName');
 
         return res.status(200).json({
             reviewList,

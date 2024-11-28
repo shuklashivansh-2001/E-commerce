@@ -2,15 +2,14 @@ const express = require('express');
 const { Product } = require('../db');
 const authenticateToken = require('../middleware/authentication');
 const route = express.Router();
+const redisClient = require('../config/redisClient');
 
-route.get('/products', async(req,res)=>{
+route.get('/products/', async(req,res)=>{
     try{
-        const skipValue  = req.body.skipValue || 10;
-        const pageCount = req.body.pageCount || 0;
-        console.log(skipValue)
-        console.log(pageCount);
+        const {skipValue = 10, pageCount = 0} = req.query;
         const productList = await Product.find().skip(skipValue*pageCount).limit(20);
 
+        console.log(productList)
         return res.status(200).json({
             productList
         });
@@ -21,11 +20,31 @@ route.get('/products', async(req,res)=>{
     }
 });
 
+route.get('/topRated', async(req,res)=>{ // can also return null if no topRated product is present in redis cache
+    try{
+        const keys = await redisClient.keys('topRatedProducts:*');
+
+        const productList = []; 
+        for (const key of keys){ 
+            const value = await redisClient.get(key); 
+            productList.push(JSON.parse(value));
+        }
+        console.log(productList);
+        return res.status(200).json({
+            productList
+        });
+    }catch(e){
+        return res.status(400).json({
+            message:'Error getting top rated products'
+        });
+    }
+});
+
 route.get('/:productId', async(req,res)=>{
     try{
         const productId = req.params.productId;
         const productDetails =  await Product.findById({_id:productId});
-
+        console.log(productDetails);
         return res.status(200).json({
             productDetails
         });
