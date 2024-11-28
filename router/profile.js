@@ -50,10 +50,10 @@ router.post('/insertAddress',authenticateToken,async (req,res)=>{
         });
 
         const updatedUser = await User.findOneAndUpdate(
-            {email:req.user.username},
+            {_id:req.userId},
             {$push:{address:newAddress._id}}
         );
-
+        console.log(updatedUser)
         return res.status(200).json({
             message:'Address added successfully'
         });
